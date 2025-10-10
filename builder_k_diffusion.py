@@ -9,6 +9,7 @@ from tonic.torch.agents.diffusion_utils.utils import IdentityEncoder, IdentityTo
 from tonic import replays 
 import torch.nn
 import torch
+from types import CodeType
 
 def build_model(cfg):
     head_cfg = cfg["actor"]["head"]
@@ -27,7 +28,7 @@ def build_model(cfg):
         rho     = head_cfg["rho"],
         s_churn =  head_cfg["s_churn"],
         s_tmin  =  head_cfg["s_tmin"], 
-        s_tmax  =  torch.tensor(eval(head_cfg["s_tmax"])),
+        s_tmax  =  torch.tensor(eval(head_cfg["s_tmax"])) if isinstance(head_cfg["s_tmax"], (str, bytes, CodeType)) else head_cfg["s_tmax"],
         s_noise =  head_cfg["s_noise"],
         eta     =    head_cfg["eta"],
         noise_type =  head_cfg["noise_type"]
