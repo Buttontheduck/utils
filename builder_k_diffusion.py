@@ -63,6 +63,13 @@ def build_model(cfg):
         activation = getattr(torch.nn, torso_cfg["activation"])
         critic_torso = models.MLP(hidden_layers, activation)
 
+    elif torso_cfg["name"] == "StableMLP":
+        hidden_layers = tuple(torso_cfg["hidden_layers"])
+        activation = getattr(torch.nn, torso_cfg["activation"])
+        critic_torso = models.StableMLP(hidden_layers, activation)
+    else:
+        print('\n Critic Torso definition is wrong \n')
+
     # Head
     if critic_cfg["head"]["name"] == "ValueHead":
         critic_head = models.ValueHead()
